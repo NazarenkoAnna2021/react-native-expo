@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { IColors } from '../../../../UIProvider/theme/IColors';
-import { scaleFontSize, scaleHorizontal, scaleVertical } from '../../../../Utils';
+import { scaleFontSize, scaleHorizontal, scaleVertical, size } from '../../../../Utils';
 
 export const getStyles = (colors: IColors) => {
     const styles = StyleSheet.create({
@@ -28,7 +28,17 @@ export const getStyles = (colors: IColors) => {
             color: colors.error,
             height: scaleVertical(20),
             textAlign: 'center',
-        }
+        },
+        gyroscope:{
+            position:'absolute',
+            alignSelf:'center',
+            top:(size.height/2)-30,
+            width:100,
+            height:100,
+            // backgroundColor:colors.primary,
+            borderWidth:2,
+            borderTopColor:colors.primary
+        },
     });
     return styles;
 };

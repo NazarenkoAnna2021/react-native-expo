@@ -10,6 +10,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { userService } from '../../../../entities/user/UserService';
 import { MainInput } from '../../../../UIKit/mainInput';
 import { MainHeader } from '../../../../UIKit/mainHeader';
+import { useRotation } from '../../../../hooks/useRotation';
+import Animated from 'react-native-reanimated';
 
 export const HomeView: FC = () => {
     const { colors, t } = useUiContext();
@@ -18,6 +20,7 @@ export const HomeView: FC = () => {
     const { profile, user } = userModel.useUser();
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');
+    const { rotationStyle } = useRotation();
 
     useEffect(() => {
         userService.getProfile();
@@ -35,6 +38,7 @@ export const HomeView: FC = () => {
 
     return (
         <ScreenContainer edges={['bottom']} containerStyle={styles.container} headerComponent={<MainHeader title={t('profile')} />}>
+            <Animated.View style={[styles.gyroscope, rotationStyle]} />
             <View style={styles.profile}>
                 <MainInput
                     placeholder={t('email')}
