@@ -6,4 +6,4 @@ export interface ILocalization {
     setLocale: (value: string) => void;
 };
 
-export type TLocales = 'en' | 'uk' | 'fr'
+export type TLocales = 'en'
