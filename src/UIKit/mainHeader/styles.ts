@@ -9,19 +9,21 @@ export const getStyles = (colors: IColors) => (StyleSheet.create(
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingHorizontal: scaleHorizontal(24),
-            paddingBottom: scaleVertical(24),
+            height: scaleHorizontal(48),
         },
         title_main: {
-            flex: 1,
+            width: '100%',
+            position: 'absolute',
             fontWeight: '600',
             fontSize: scaleFontSize(32),
             color: colors.title,
             textAlign: 'center',
         },
         backButton: {
-            width: scaleHorizontal(48),
+            zIndex: 1,
+            justifyContent: 'center',
             height: scaleHorizontal(48),
+            paddingHorizontal: scaleHorizontal(24),
             borderRadius: 16
         },
     }

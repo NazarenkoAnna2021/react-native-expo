@@ -12,14 +12,14 @@ export const COLORS: { light: IColors, dark: IColors } = {
         primary: '#1D4ED8',
         primary_active: '#1E40AF',
         error: '#EF4444',
-        onboarding_0: '#DBEAFE',
-        onboarding_1: '#BFDBFE',
-        onboarding_2: '#93C5FD',
+        bubble_left: '#DBEAFE',
+        bubble_right: '#1D4ED8',
         text_inverted: '#FFFFFF',
         text_inactive: '#64748B',
         inactive: '#CBD5E1',
         border_inactive: '#64748B',
-        card_inactive: '#E2E8F0'
+        card_inactive: '#E2E8F0',
+        reply: '#ffffff40'
     },
     dark: {
         background: '#EAF2FB',
@@ -32,13 +32,13 @@ export const COLORS: { light: IColors, dark: IColors } = {
         primary: '#1D4ED8',
         primary_active: '#1E40AF',
         error: '#EF4444',
-        onboarding_0: '#DBEAFE',
-        onboarding_1: '#BFDBFE',
-        onboarding_2: '#93C5FD',
+        bubble_left: '#DBEAFE',
+        bubble_right: '#BFDBFE',
         text_inverted: '#FFFFFF',
         text_inactive: '#64748B',
         inactive: '#CBD5E1',
         border_inactive: '#64748B',
-        card_inactive: '#E2E8F0'
+        card_inactive: '#E2E8F0',
+        reply: '#ffffff40'
     },
 };

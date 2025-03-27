@@ -45,7 +45,7 @@ class UserModel implements IUserModel {
             .catch(error => console.warn('UserModel -> loadUser: ', error));
     }
 
-    public get useUser(){
+    public get use(){
         return this.repository;
     }
 

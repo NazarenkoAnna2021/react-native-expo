@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { IColors } from '../../../../UIProvider/theme/IColors';
-import { scaleFontSize, scaleHorizontal, scaleLineHeight, scaleVertical, size } from '../../../../Utils';
+import { scaleFontSize, scaleHorizontal, scaleVertical, size } from '../../../../Utils';
 
 export const getStyles = (colors: IColors) => {
     const styles = StyleSheet.create({
@@ -29,24 +29,15 @@ export const getStyles = (colors: IColors) => {
             height: scaleVertical(20),
             textAlign: 'center',
         },
-        gyroscope: {
-            position: 'absolute',
-            alignSelf: 'center',
-            top: (size.height / 2) - 30,
-            width: 100,
-            height: 100,
-            // backgroundColor:colors.primary,
-            borderWidth: 2,
-            borderTopColor: colors.primary
+        gyroscope:{
+            position:'absolute',
+            alignSelf:'center',
+            top:(size.height/2)-30,
+            width:100,
+            height:100,
+            borderWidth:2,
+            borderTopColor:colors.primary
         },
-        cardText: {
-            flex: 1,
-            fontSize: scaleFontSize(16),
-            lineHeight: scaleLineHeight(16),
-        },
-        card:{
-            marginBottom:scaleVertical(16)
-        }
     });
     return styles;
 };

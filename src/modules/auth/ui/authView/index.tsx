@@ -24,7 +24,7 @@ export const AuthView: FC = () => {
         setMessage('');
         const { isError, message } = await authService.signInWithPassword({ email, password });
         if (!isError) {
-            navigation.navigate('HomeView');
+            navigation.navigate('TabNavigator');
         };
         if (message) {
             setMessage(message);
@@ -37,7 +37,7 @@ export const AuthView: FC = () => {
         setMessage('');
         const { isError, message } = await authService.signUp({ email, password });
         if (!isError) {
-            navigation.navigate('HomeView');
+            navigation.navigate('TabNavigator');
         };
         if (message) {
             setMessage(message);
