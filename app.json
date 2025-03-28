@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "expo-user-management",
-    "slug": "expo-user-management",
+    "slug": "test",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,13 +21,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.expousermanagement"
+      "package": "com.anonymous.expousermanagement",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-localization"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "591459cc-7dba-4aa8-815a-50f8bb033899"
+      }
+    },
+    "owner": "annanazarenko"
   }
 }
