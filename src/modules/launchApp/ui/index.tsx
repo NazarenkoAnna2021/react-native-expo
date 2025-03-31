@@ -6,7 +6,7 @@ import { useLaunchApp } from '../presenters/useLaunchApp';
 import { ActivityIndicator } from 'react-native';
 
 export const LaunchAppView: FC = () => {
-    const { colors, t } = useUiContext();
+    const { colors } = useUiContext();
     const styles = useMemo(() => getStyles(colors), [colors]);
     const { } = useLaunchApp();
 

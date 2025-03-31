@@ -20,7 +20,7 @@ export const MainStackNavigator: FC = () => {
             <Stack.Screen name={'LaunchAppView'} component={LaunchAppView} />
             <Stack.Screen name={'AuthView'} component={AuthView} />
             <Stack.Screen name={'TabNavigator'} component={TabNavigator} />
-            <Stack.Screen name='ChatView' component={ChatView} />
+            <Stack.Screen name={'ChatView'} component={ChatView} />
         </Stack.Navigator>
     );
 };;

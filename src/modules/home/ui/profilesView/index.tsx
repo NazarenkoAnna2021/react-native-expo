@@ -67,8 +67,8 @@ export const ProfilesView: FC = () => {
                 title='LOG OUT'
                 style={styles.offset}
                 onPress={() => {
-                    userModel.clear();
                     notificationsService.saveAccountNotificationsToken('');
+                    userModel.clear();
                     navigation.reset({ routes: [{ name: 'AuthView' }] });
                 }}
             />

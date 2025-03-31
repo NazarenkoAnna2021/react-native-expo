@@ -25,6 +25,7 @@ export const ChatView: FC = () => {
     useEffect(() => {
         setupChat();
         return () => {
+            chatModel.clear();
             chatService.unsubscribe();
         };
     }, []);

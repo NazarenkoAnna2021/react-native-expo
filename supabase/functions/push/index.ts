@@ -33,6 +33,7 @@ Deno.serve(async (req) => {
       to: data?.expo_push_token,
       sound: 'default',
       body: payload.record.body,
+      data: payload.record.data
     }),
   }).then((res) => res.json())
   return new Response(JSON.stringify(res), {
