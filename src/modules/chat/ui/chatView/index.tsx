@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { ScreenContainer } from "../../../../UIKit/screenContainer";
 import { MainHeader } from "../../../../UIKit/mainHeader";
 import { profilesModel } from "../../../home/entities/profilesModel";
@@ -12,6 +12,7 @@ import { CustomMessage } from "../components/customMessage";
 import { ICustomMessage } from "../../entities/ICustomMessage";
 import { useKeyboard } from "../../../../hooks/useKeyboard";
 import { useNavigation } from "@react-navigation/native";
+import { ChatSkeleton } from "../components/chatSkeleton";
 
 export const ChatView: FC = () => {
     const { t } = useUiContext();
@@ -19,6 +20,7 @@ export const ChatView: FC = () => {
     const { selectedProfile } = profilesModel.use();
     const { profile } = userModel.use();
     const { messages, selectedMessage } = chatModel.use();
+    const [isLoading, setIsLoading] = useState(false);
     const { isFocused } = useKeyboard();
     const user = useMemo(() => ({ _id: profile?.id || '' }), [profile]);
 
@@ -31,9 +33,11 @@ export const ChatView: FC = () => {
     }, []);
 
     const setupChat = async () => {
+        setIsLoading(true);
         await chatService.getChat()
         await chatService.getMessages();
         chatService.subscribe();
+        setIsLoading(false);
     };
 
     const onSend = (value: ICustomMessage[]) => {
@@ -53,14 +57,17 @@ export const ChatView: FC = () => {
 
     return (
         <ScreenContainer headerComponent={<MainHeader onGoBack={navigation.goBack} title={selectedProfile?.username || t('noName')} />}>
-            <GiftedChat<ICustomMessage>
-                user={user}
-                messages={messages}
-                onSend={onSend}
-                renderInputToolbar={renderInputToolbar}
-                renderMessage={renderMessage}
-                focusOnInputWhenOpeningKeyboard
-            />
+            {isLoading
+                ? <ChatSkeleton />
+                : <GiftedChat<ICustomMessage>
+                    user={user}
+                    messages={messages}
+                    onSend={onSend}
+                    renderInputToolbar={renderInputToolbar}
+                    renderMessage={renderMessage}
+                    focusOnInputWhenOpeningKeyboard
+                />
+            }
         </ScreenContainer>
     );
 };

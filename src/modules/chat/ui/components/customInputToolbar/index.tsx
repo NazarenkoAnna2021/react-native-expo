@@ -1,5 +1,5 @@
 import { FC, memo, useMemo } from "react";
-import { Composer, IMessage, InputToolbar, InputToolbarProps, Send } from "react-native-gifted-chat";
+import { Composer, IMessage, InputToolbar, InputToolbarProps } from "react-native-gifted-chat";
 import { View } from "react-native";
 import { useUiContext } from "../../../../../UIProvider";
 import { getStyles } from "./styles";
