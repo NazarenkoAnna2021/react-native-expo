@@ -42,7 +42,7 @@ export const ScreenContainer: FC<IProps> = ({ scrollViewRef, isKeyboardAvoiding,
     }, [edges]);
 
     return (
-        <KeyboardAvoidingView enabled={isKeyboardAvoiding} style={styles.container} behavior={avoidingBehavior} onStartShouldSetResponder={keyboardShouldPersistTaps ? Keyboard.dismiss : undefined as any}>
+        // <KeyboardAvoidingView enabled={isKeyboardAvoiding} style={styles.container} behavior={avoidingBehavior} onStartShouldSetResponder={keyboardShouldPersistTaps ? Keyboard.dismiss : undefined as any}>
             <View style={[styles.container, containerStyle, edgesStyle]}>
                 {headerComponent}
                 {scrollEnabled
@@ -61,6 +61,6 @@ export const ScreenContainer: FC<IProps> = ({ scrollViewRef, isKeyboardAvoiding,
                     : children
                 }
             </View>
-        </KeyboardAvoidingView>
+        // </KeyboardAvoidingView>
     );
 };

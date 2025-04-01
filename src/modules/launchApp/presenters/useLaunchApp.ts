@@ -9,7 +9,7 @@ export const useLaunchApp = () => {
     useEffect(() => {
         setTimeout(() => {
             if (userModel.access_token) {
-                navigation.reset({ routes: [{ name: 'HomeView' }] });
+                navigation.reset({ routes: [{ name: 'TabNavigator' }] });
                 return;
             };
             navigation.reset({ routes: [{ name: 'AuthView' }] });

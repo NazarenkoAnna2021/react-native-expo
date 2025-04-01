@@ -12,12 +12,12 @@ export type IColors = {
     primary: string;
     primary_active: string;
     error: string;
-    onboarding_0: string;
-    onboarding_1: string;
-    onboarding_2: string;
+    bubble_left: string;
+    bubble_right: string;
     text_inverted: string;
     text_inactive: string;
     inactive: string;
     border_inactive: string;
     card_inactive: string;
+    reply: string;
 };

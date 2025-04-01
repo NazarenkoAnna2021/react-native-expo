@@ -10,7 +10,7 @@ class UserService {
         try {
             const response = await this?._client
                 ?.from('profiles')
-                ?.select(`username, website, avatar_url`)
+                ?.select(`username, website, avatar_url, id`)
                 ?.eq('id', userModel.user?.id)
                 ?.single();
             if (response?.data) {

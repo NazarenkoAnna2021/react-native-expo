@@ -1,5 +1,5 @@
 import { FC, memo, useMemo } from "react";
-import { Text, TextStyle, View, ViewProps } from "react-native";
+import { Text, TextStyle, TouchableOpacity, View, ViewProps } from "react-native";
 import { getStyles } from "./styles";
 import { useUiContext } from "../../UIProvider";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -23,7 +23,7 @@ export const MainHeader: FC<IProps> = memo(({ type = 'main', title, LeadingAcces
 
     return (
         <View style={[styles[`container_${type}`], { marginTop: isIOS ? safeAreaInsets.top : scaleVertical(10) }, style]}  {...props}>
-            {!!onGoBack && <MainButton onPress={onGoBack} LeadingAccessory={<ChevronIcon position={'LEFT'} />} style={styles.backButton} />}
+            {!!onGoBack && <TouchableOpacity style={styles.backButton} onPress={onGoBack} ><ChevronIcon position={'LEFT'} color={colors.text} /></TouchableOpacity>}
             {LeadingAccessory}
             <Text numberOfLines={1} style={styles[`title_${type}`]}>{title}</Text>
             {TrailingAccessory}

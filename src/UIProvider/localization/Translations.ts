@@ -10,6 +10,8 @@ export const translations: { [key in TLocales]: { [key: string]: string } } = {
                 website: 'Website',
                 username: 'Username',
                 profile: 'Profile',
-                update: 'Update'
+                update: 'Update',
+                home: 'Home',
+                noName:'No name'
         },
 };
