@@ -74,6 +74,22 @@ class ChatService {
         };
     }
 
+    private sendNotifications = async (messages: ICustomMessage[]) => {
+        try {
+            const notifications = chatModel.chat?.profiles?.map(user_id => user_id !== userModel.profile?.id ? messages.map(item => ({ user_id, body: item.text })) : []).flat();
+            const response = await this._client
+                ?.from('notifications')
+                ?.insert(notifications);
+            if (response?.error) {
+                return { isError: true, message: response.error.message };
+            };
+            return { isError: false };
+        } catch (error: any) {
+            console.log('Supabase -> sendNotification: ', JSON.stringify(error, null, ' '));
+            return { isError: true, message: error.message };
+        };
+    };
+
     public sendMessages = async (messages: ICustomMessage[]) => {
         try {
             const selection = { replied_id: chatModel.selectedMessage?._id, replied_text: chatModel.selectedMessage?.text };
@@ -85,6 +101,7 @@ class ChatService {
             if (response?.error) {
                 return { isError: true, message: response.error.message };
             };
+            await this.sendNotifications(messages);
             return { isError: false };
         } catch (error: any) {
             console.log('Supabase -> sendMessages: ', JSON.stringify(error, null, ' '));

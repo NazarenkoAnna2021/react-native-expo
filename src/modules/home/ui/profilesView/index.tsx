@@ -10,6 +10,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { userService } from '../../../../entities/user/UserService';
 import { MainInput } from '../../../../UIKit/mainInput';
 import { MainHeader } from '../../../../UIKit/mainHeader';
+import { notificationsService } from '../../../../libs/notifications';
 
 export const ProfilesView: FC = () => {
     const { colors, t } = useUiContext();
@@ -35,7 +36,6 @@ export const ProfilesView: FC = () => {
 
     return (
         <ScreenContainer edges={['bottom']} containerStyle={styles.container} headerComponent={<MainHeader title={t('profile')} />}>
-            {/* <Animated.View style={[styles.gyroscope, rotationStyle]} /> */}
             <View style={styles.profile}>
                 <MainInput
                     placeholder={t('email')}
@@ -67,6 +67,7 @@ export const ProfilesView: FC = () => {
                 title='LOG OUT'
                 style={styles.offset}
                 onPress={() => {
+                    notificationsService.saveAccountNotificationsToken('');
                     userModel.clear();
                     navigation.reset({ routes: [{ name: 'AuthView' }] });
                 }}
@@ -74,3 +75,4 @@ export const ProfilesView: FC = () => {
         </ScreenContainer>
     );
 };
+

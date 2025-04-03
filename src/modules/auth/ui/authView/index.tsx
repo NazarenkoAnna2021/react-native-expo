@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Text } from "react-native";
 import { authService } from "../../entities/AuthService";
+import { notificationsService } from "../../../../libs/notifications";
 
 export const AuthView: FC = () => {
     const { colors, t } = useUiContext();
@@ -24,6 +25,7 @@ export const AuthView: FC = () => {
         setMessage('');
         const { isError, message } = await authService.signInWithPassword({ email, password });
         if (!isError) {
+            notificationsService.registerForPushNotificationsAsync();
             navigation.navigate('TabNavigator');
         };
         if (message) {
@@ -37,6 +39,7 @@ export const AuthView: FC = () => {
         setMessage('');
         const { isError, message } = await authService.signUp({ email, password });
         if (!isError) {
+            notificationsService.registerForPushNotificationsAsync();
             navigation.navigate('TabNavigator');
         };
         if (message) {

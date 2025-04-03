@@ -13,7 +13,7 @@ export const useLaunchApp = () => {
                 return;
             };
             navigation.reset({ routes: [{ name: 'AuthView' }] });
-        }, 3000);
+        }, 2000);
     }, []);
 
     return {};

@@ -5,7 +5,6 @@ export const useKeyboard = () => {
     const [isFocused, setIsFocused] = useState(false);
 
     useEffect(() => {
-        removeKeyboardListeners();
         addKeyboardListeners();
         return () => {
             removeKeyboardListeners();

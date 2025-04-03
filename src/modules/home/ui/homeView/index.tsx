@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useUiContext } from '../../../../UIProvider';
 import { ScreenContainer } from '../../../../UIKit/screenContainer';
 import { getStyles } from './styles';
@@ -16,13 +16,21 @@ export const HomeView: FC = () => {
     const { colors, t } = useUiContext();
     const styles = useMemo(() => getStyles(colors), [colors]);
     const navigation = useNavigation<StackNavigationProp<any>>();
+    const [isLoading, setIsLoading] = useState(false);
     const { profiles } = profilesModel.use();
 
     useEffect(() => {
-        userService.getProfile().then(profilesService.getProfiles)
+        getProfiles();
     }, []);
 
-    const onOpenChat = (item: IProfile) => () =>{
+    const getProfiles = async () => {
+        setIsLoading(true);
+        await userService.getProfile();
+        await profilesService.getProfiles();
+        setIsLoading(false);
+    };
+
+    const onOpenChat = (item: IProfile) => () => {
         profilesModel.selectedProfile = item;
         navigation.navigate('ChatView');
     }
@@ -33,12 +41,12 @@ export const HomeView: FC = () => {
         </Card>
     ), []);
 
-        return (
-            <ScreenContainer containerStyle={styles.container} headerComponent={<MainHeader title={t('home')} />}>
-                <FlatList
-                    data={profiles}
-                    renderItem={renderItem}
-                />
-            </ScreenContainer>
-        );
-    };
+    return (
+        <ScreenContainer containerStyle={styles.container} headerComponent={<MainHeader title={t('home')} />}>
+            <FlatList
+                data={profiles}
+                renderItem={renderItem}
+            />
+        </ScreenContainer>
+    );
+};

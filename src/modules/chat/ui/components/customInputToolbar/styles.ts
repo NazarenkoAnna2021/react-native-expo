@@ -19,6 +19,7 @@ export const getStyles = (colors: IColors) => (StyleSheet.create({
     },
     inputToolbar: {
         backgroundColor: 'transparent',
-        borderTopWidth: 0
+        borderTopWidth: 0,
+        height: scaleVertical(40),
     }
 }))
