@@ -7,6 +7,7 @@ import { scaleFontSize, scaleHorizontal, scaleVertical } from "../../Utils";
 import { EyeIcon } from "../../../assets/EyeIcon";
 
 interface IProps extends TextInputProps {
+    ID?: string;
     type?: 'main' | 'password';
     enableErrorMessage?: boolean;
     error?: string;
@@ -15,7 +16,7 @@ interface IProps extends TextInputProps {
     containerStyle?: ViewStyle;
 };
 
-export const MainInput: FC<IProps> = memo(({ type = 'main', enableErrorMessage = false, error, LeadingAccessory, TrailingAccessory, containerStyle, secureTextEntry, placeholder, onFocus, onBlur, style, ...props }) => {
+export const MainInput: FC<IProps> = memo(({ ID, type = 'main', enableErrorMessage = false, error, LeadingAccessory, TrailingAccessory, containerStyle, secureTextEntry, placeholder, onFocus, onBlur, style, ...props }) => {
     const { colors } = useUiContext();
     const styles = useMemo(() => getStyles(colors), [colors]);
     const [localSecureTextEntry, setLocalSecureTextEntry] = useState(secureTextEntry);
@@ -57,6 +58,7 @@ export const MainInput: FC<IProps> = memo(({ type = 'main', enableErrorMessage =
             <View style={[styles.inputWrapper]}>
                 <Animated.Text style={[styles.placeholder, placeholderStyle]}>{placeholder}</Animated.Text>
                 <TextInput
+                    testID={ID}
                     {...props}
                     style={[styles[`input_${type}`], { borderColor: error?.length && !isFocused ? colors.error : colors.border, paddingTop: placeholder ? scaleVertical(11) : 0 }, style]}
                     onFocus={handleOnFocus}

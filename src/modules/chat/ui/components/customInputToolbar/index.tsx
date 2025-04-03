@@ -19,7 +19,7 @@ export const CustomInputToolbar: FC<IProps> = memo(({ isFocused, selectedMessage
     const safeAreaInsets = useSafeAreaInsets();
 
     return (
-        <View style={[styles.container, { paddingBottom: (isFocused || !isIOS )? scaleVertical(10) : safeAreaInsets.bottom }]}>
+        <View style={[styles.container, { paddingBottom: (isFocused || !isIOS) ? scaleVertical(10) : safeAreaInsets.bottom }]}>
             {!!selectedMessage && <RepliedMessage position={'left'} text={selectedMessage.text} onClose={onDeleteSelection} />}
             <InputToolbar
                 containerStyle={styles.inputToolbar}

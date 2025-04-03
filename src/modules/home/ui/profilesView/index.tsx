@@ -43,6 +43,7 @@ export const ProfilesView: FC = () => {
                     containerStyle={styles.offset}
                 />
                 <MainInput
+                    ID='Website'
                     placeholder={t('website')}
                     value={profile?.website}
                     onChangeText={(text) => { userModel.profile = { ...profile, website: text } }}

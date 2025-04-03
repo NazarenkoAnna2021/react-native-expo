@@ -60,6 +60,7 @@ export const ChatView: FC = () => {
             {isLoading
                 ? <ChatSkeleton />
                 : <GiftedChat<ICustomMessage>
+                    placeholder={'Message...'}
                     user={user}
                     messages={messages}
                     onSend={onSend}

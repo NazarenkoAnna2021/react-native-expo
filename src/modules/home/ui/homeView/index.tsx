@@ -5,7 +5,7 @@ import { getStyles } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { MainHeader } from '../../../../UIKit/mainHeader';
-import { FlatList, Text } from 'react-native';
+import { ActivityIndicator, FlatList, Text } from 'react-native';
 import { userService } from '../../../../entities/user/UserService';
 import { profilesService } from '../../entities/contactsService';
 import { profilesModel } from '../../entities/profilesModel';
@@ -44,6 +44,7 @@ export const HomeView: FC = () => {
     return (
         <ScreenContainer containerStyle={styles.container} headerComponent={<MainHeader title={t('home')} />}>
             <FlatList
+                ListHeaderComponent={isLoading ? <ActivityIndicator color={colors.primary} /> : null}
                 data={profiles}
                 renderItem={renderItem}
             />

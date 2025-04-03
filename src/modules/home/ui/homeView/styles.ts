@@ -35,7 +35,6 @@ export const getStyles = (colors: IColors) => {
             top: (size.height / 2) - 30,
             width: 100,
             height: 100,
-            // backgroundColor:colors.primary,
             borderWidth: 2,
             borderTopColor: colors.primary
         },

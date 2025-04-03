@@ -3,7 +3,7 @@ import { getStyles } from './styles';
 import { useUiContext } from '../../../UIProvider';
 import { ScreenContainer } from '../../../UIKit/screenContainer';
 import { useLaunchApp } from '../presenters/useLaunchApp';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 
 export const LaunchAppView: FC = () => {
     const { colors } = useUiContext();
@@ -12,6 +12,7 @@ export const LaunchAppView: FC = () => {
 
     return (
         <ScreenContainer containerStyle={styles.container}>
+            <Text>Welcome!</Text>
             <ActivityIndicator size={'large'} color={colors.primary} />
         </ScreenContainer>
     );
