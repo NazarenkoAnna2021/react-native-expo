@@ -7,10 +7,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { MainHeader } from '../../../../UIKit/mainHeader';
 import { ActivityIndicator, FlatList, Text } from 'react-native';
 import { userService } from '../../../../entities/user/UserService';
-import { profilesService } from '../../entities/contactsService';
 import { profilesModel } from '../../entities/profilesModel';
 import { IProfile } from '../../../../entities/user/IProfile';
 import { Card } from '../../../../UIKit/card';
+import { profilesService } from '../../entities/profilesService';
 
 export const HomeView: FC = () => {
     const { colors, t } = useUiContext();

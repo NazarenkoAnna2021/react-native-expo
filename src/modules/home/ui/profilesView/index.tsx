@@ -58,6 +58,7 @@ export const ProfilesView: FC = () => {
                 />
                 {<Text style={styles.error}>{message}</Text>}
                 <MainButton
+                    disabled={!userModel.profile?.username}
                     isLoading={isLoading}
                     title={t('update')}
                     style={styles.updateButton}

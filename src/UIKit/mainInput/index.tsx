@@ -1,10 +1,32 @@
-import { FC, memo, useEffect, useMemo, useState } from "react";
-import { TextInput, TextInputProps, Text, View, ViewStyle, TouchableOpacity, NativeSyntheticEvent, TextInputFocusEventData } from "react-native";
+import { FC, memo, useEffect, useMemo, useRef, useState } from "react";
 import { getStyles } from "./styles";
 import { useUiContext } from "../../UIProvider";
-import Animated, { useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from "react-native-reanimated";
-import { scaleFontSize, scaleHorizontal, scaleVertical } from "../../Utils";
+import { scaleFontSize, scaleVertical } from "../../Utils";
 import { EyeIcon } from "../../../assets/EyeIcon";
+import * as Animatable from 'react-native-animatable';
+import { TextInputProps, Text, ViewStyle, NativeSyntheticEvent, TextInputFocusEventData, TextInput, TouchableOpacity, TextProps, TextStyle, View } from "react-native";
+
+const PLACEHOLDER_DOWN = {
+    0: {
+        top: scaleVertical(10),
+        fontSize: scaleFontSize(10)
+    },
+    1: {
+        top: scaleVertical(16),
+        fontSize: scaleFontSize(14)
+    }
+};
+const PLACEHOLDER_UP = {
+    0: {
+        top: scaleVertical(16),
+        fontSize: scaleFontSize(14)
+    },
+    1: {
+        top: scaleVertical(10),
+        fontSize: scaleFontSize(10)
+    }
+
+};
 
 interface IProps extends TextInputProps {
     ID?: string;
@@ -20,29 +42,11 @@ export const MainInput: FC<IProps> = memo(({ ID, type = 'main', enableErrorMessa
     const { colors } = useUiContext();
     const styles = useMemo(() => getStyles(colors), [colors]);
     const [localSecureTextEntry, setLocalSecureTextEntry] = useState(secureTextEntry);
-    const placeholderOffset = useSharedValue(props.value?.length ? scaleVertical(10) : scaleVertical(16));
-    const placeholderTextSize = useSharedValue(props.value?.length ? scaleFontSize(10) : scaleFontSize(14));
-    const derivedTextSize = useDerivedValue(() => placeholderTextSize.value, [placeholderOffset.value]);
     const [isFocused, setIsFocused] = useState(false);
-
-    useEffect(() => {
-        if (isFocused || props.value?.length) {
-            placeholderOffset.value !== scaleVertical(10) && (placeholderOffset.value = withTiming(scaleVertical(10), { duration: 300 }));
-            placeholderTextSize.value !== scaleFontSize(10) && (placeholderTextSize.value = withTiming(scaleFontSize(10), { duration: 300 }));
-        } else if (props.value?.length === 0) {
-            placeholderOffset.value !== scaleVertical(16) && (placeholderOffset.value = withTiming(scaleVertical(16), { duration: 300 }));
-            placeholderTextSize.value !== scaleFontSize(14) && (placeholderTextSize.value = withTiming(scaleHorizontal(14), { duration: 300 }));
-        };
-    }, [error, isFocused, props.value]);
 
     const onSetLocalSecureTextEntry = () => {
         setLocalSecureTextEntry(prev => !prev);
     };
-
-    const placeholderStyle = useAnimatedStyle(() => ({
-        top: placeholderOffset.value,
-        fontSize: derivedTextSize.value
-    }));
 
     const handleOnFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
         setIsFocused(true);
@@ -56,7 +60,7 @@ export const MainInput: FC<IProps> = memo(({ ID, type = 'main', enableErrorMessa
     return (
         <View style={[styles[`container_${type}`], containerStyle]}>
             <View style={[styles.inputWrapper]}>
-                <Animated.Text style={[styles.placeholder, placeholderStyle]}>{placeholder}</Animated.Text>
+                <AnimatedText isUp={isFocused || props.value?.length !== 0} placeholder={placeholder} />
                 <TextInput
                     testID={ID}
                     {...props}
@@ -75,4 +79,25 @@ export const MainInput: FC<IProps> = memo(({ ID, type = 'main', enableErrorMessa
             {enableErrorMessage && <Text style={styles.errorText}>{error}</Text>}
         </View>
     )
+});
+
+const AnimatedText: FC<{ isUp: boolean, placeholder?: string }> = memo(({ isUp, placeholder }) => {
+    const { colors } = useUiContext();
+    const styles = useMemo(() => getStyles(colors), [colors]);
+    const ref = useRef<Animatable.AnimatableComponent<TextProps, TextStyle>>();
+    const isAnimated = useRef(false);
+    const initialStyle = isUp ? PLACEHOLDER_UP[1] : PLACEHOLDER_UP[0];
+
+    useEffect(() => {
+        if (isUp && isAnimated.current) {
+            ref.current?.animate(PLACEHOLDER_UP, 300);
+        } else if (isAnimated.current) {
+            ref.current?.animate(PLACEHOLDER_DOWN, 300);
+        };
+        isAnimated.current = true;
+    }, [isUp]);
+
+    return (
+        <Animatable.Text ref={ref as any} style={[styles.placeholder, initialStyle]}>{placeholder}</Animatable.Text>
+    );
 });

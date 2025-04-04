@@ -1,7 +1,9 @@
-import { FC, memo, useMemo, useState } from "react";
-import { ActivityIndicator, GestureResponderEvent, Text, TextStyle, TouchableWithoutFeedback, TouchableWithoutFeedbackProps, View } from "react-native";
+import { FC, memo, useEffect, useMemo, useRef } from "react";
+import { ActivityIndicator, GestureResponderEvent, TextProps, TextStyle, TouchableWithoutFeedback, TouchableWithoutFeedbackProps, ViewProps } from "react-native";
 import { getStyles } from "./styles";
 import { useUiContext } from "../../UIProvider";
+import * as Animatable from 'react-native-animatable';
+import { getButtonAnimations } from "./buttonAnimations";
 
 interface IProps extends TouchableWithoutFeedbackProps {
     isLoading?: boolean;
@@ -15,59 +17,44 @@ interface IProps extends TouchableWithoutFeedbackProps {
 export const MainButton: FC<IProps> = memo(({ isLoading = false, type = 'main', title, LeadingAccessory, TrailingAccessory, style, titleStyle, ...props }) => {
     const { colors } = useUiContext();
     const styles = useMemo(() => getStyles(colors), [colors]);
-    const [status, setStatus] = useState<'active' | 'default'>('default');
-    const buttonColors = {
-        main: {
-            default: colors.primary,
-            active: colors.primary_active,
-            disabled: colors.inactive,
-            text_default: colors.text_inverted,
-            text_active: colors.text_inverted,
-            text_disabled: colors.text_inverted,
-            border: colors.text,
-            border_disabled: colors.border_inactive,
-        },
-        no_background: {
-            default: '',
-            active: '',
-            disabled: '',
-            text_default: colors.title,
-            text_active: colors.border_inactive,
-            text_disabled: colors.inactive,
-            border: '',
-            border_disabled: '',
-        },
-        with_icon: {
-            default: colors.card,
-            active: colors.card_inactive,
-            disabled: colors.inactive,
-            text_default: colors.title,
-            text_active: colors.title,
-            text_disabled: colors.title,
-            border: colors.text,
-            border_disabled: colors.border_inactive,
-        },
-    };
+    const buttonAnimations = useMemo(() => getButtonAnimations(colors, type), [colors, type]);
+    const isAnimated = useRef(false);
+    const viewRef = useRef<Animatable.AnimatableComponent<ViewProps, TextStyle>>();
+    const textRef = useRef<Animatable.AnimatableComponent<TextProps, TextStyle>>();
+
+    useEffect(() => {
+        if (props.disabled && isAnimated.current) {
+            viewRef.current?.animate(buttonAnimations.disabledView, 500);
+            textRef.current?.animate(buttonAnimations.disabledText, 500);
+        } else if (isAnimated.current) {
+            viewRef.current?.animate(buttonAnimations.enabledView, 500);
+            textRef.current?.animate(buttonAnimations.enabledText, 500);
+        }
+        isAnimated.current = true;
+    }, [props.disabled]);
+
 
     const onPressIn = (event: GestureResponderEvent) => {
-        setStatus('active');
         props?.onPressIn?.(event);
+        viewRef.current?.animate(buttonAnimations.pressedIn, 100);
+        textRef.current?.animate(buttonAnimations.pressedInText, 100);
     };
 
     const onPressOut = (event: GestureResponderEvent) => {
-        setStatus('default');
         props?.onPressOut?.(event);
+        viewRef.current?.animate(buttonAnimations.pressedOut, 100);
+        textRef.current?.animate(buttonAnimations.pressedOutText, 100);
     };
 
     return (
         <TouchableWithoutFeedback {...props} onPressIn={onPressIn} onPressOut={onPressOut} onPress={props.onPress}>
-            <View style={[styles[`container_${type}`], { backgroundColor: buttonColors[type][props.disabled ? 'disabled' : status], borderColor: buttonColors[type][props.disabled ? 'border_disabled' : 'border'] }, style]}>
+            <Animatable.View ref={viewRef as any} style={[styles[`container_${type}`], { backgroundColor: buttonAnimations.buttonColors[type][props.disabled ? 'disabled' : 'default'], borderColor: buttonAnimations.buttonColors[type].border }, style]}>
                 {LeadingAccessory}
                 {isLoading
-                    ? <ActivityIndicator color={buttonColors[type].text_active} size={'small'} />
-                    : <Text style={[styles[`title_${type}`], { color: buttonColors[type][`text_${props.disabled ? 'disabled' : status}`] }, titleStyle]}>{title}</Text>}
+                    ? <ActivityIndicator color={buttonAnimations.buttonColors[type].text_active} size={'small'} />
+                    : <Animatable.Text ref={textRef as any} style={[styles[`title_${type}`], { color: buttonAnimations.buttonColors[type][props.disabled ? 'text_disabled' : 'text_default'] }, titleStyle]}>{title}</Animatable.Text>}
                 {TrailingAccessory}
-            </View>
+            </Animatable.View>
         </TouchableWithoutFeedback>
     )
 });
