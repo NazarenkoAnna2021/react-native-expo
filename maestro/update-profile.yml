@@ -1,0 +1,7 @@
+appId: com.anonymous.expo-user-management # This is an example app id. Replace it with your app id.
+---
+- assertVisible: 'Profile'
+- tapOn: 'Website'
+- inputText: "test1.com"
+- tapOn: 'Update'
+- assertVisible: 'test1.com'

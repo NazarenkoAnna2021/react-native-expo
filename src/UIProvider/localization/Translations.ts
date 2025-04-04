@@ -2,21 +2,16 @@ import { TLocales } from "./ILocalization";
 
 export const translations: { [key in TLocales]: { [key: string]: string } } = {
         en: {
-                appName: 'Chart',
-                temperature: 'Temperature',
-                precipitation: 'Chance of Precipitation',
-                theme: 'Theme'
+                email: 'email',
+                password: 'password',
+                logIn: 'Log In',
+                signIn: 'Sign In',
+                authentication: 'Authentication',
+                website: 'Website',
+                username: 'Username',
+                profile: 'Profile',
+                update: 'Update',
+                home: 'Home',
+                noName:'No name'
         },
-        uk: {
-                appName: 'Графік',
-                temperature: 'Температура',
-                precipitation: 'Ймовірність опадів',
-                theme: 'Тема'
-        },
-        fr: {
-                appName: 'Graphique',
-                temperature: 'Température',
-                precipitation: 'Probabilité de précipitations',
-                theme: 'Thème'
-        }
 };

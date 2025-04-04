@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, ViewStyle } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, View, ViewStyle } from 'react-native';
 import { Edge, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUiContext } from '../../UIProvider';
 import { getStyle } from './styles';
@@ -40,25 +40,27 @@ export const ScreenContainer: FC<IProps> = ({ scrollViewRef, isKeyboardAvoiding,
         }
         return result;
     }, [edges]);
-    
+
     return (
-        <KeyboardAvoidingView enabled={isKeyboardAvoiding} style={[styles.container, containerStyle, edgesStyle]} behavior={avoidingBehavior} onStartShouldSetResponder={keyboardShouldPersistTaps ? Keyboard.dismiss : undefined as any}>
-            {headerComponent}
-            {scrollEnabled
-                ? <ScrollView
-                    bounces={false}
-                    ref={scrollViewRef}
-                    scrollEnabled={scrollEnabled}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={[styles.contentContainerStyle, contentContainerStyle]}
-                    style={styles.contentContainerStyle}
-                    keyboardDismissMode='interactive'
-                    keyboardShouldPersistTaps={'handled'}
-                >
-                    {children}
-                </ScrollView>
-                : children
-            }
-        </KeyboardAvoidingView>
+        // <KeyboardAvoidingView enabled={isKeyboardAvoiding} style={styles.container} behavior={avoidingBehavior} onStartShouldSetResponder={keyboardShouldPersistTaps ? Keyboard.dismiss : undefined as any}>
+            <View style={[styles.container, containerStyle, edgesStyle]}>
+                {headerComponent}
+                {scrollEnabled
+                    ? <ScrollView
+                        bounces={false}
+                        ref={scrollViewRef}
+                        scrollEnabled={scrollEnabled}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={[styles.contentContainerStyle, contentContainerStyle]}
+                        style={styles.contentContainerStyle}
+                        keyboardDismissMode='interactive'
+                        keyboardShouldPersistTaps={'handled'}
+                    >
+                        {children}
+                    </ScrollView>
+                    : children
+                }
+            </View>
+        // </KeyboardAvoidingView>
     );
 };
