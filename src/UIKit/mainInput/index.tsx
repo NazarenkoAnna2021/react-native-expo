@@ -4,7 +4,8 @@ import { useUiContext } from "../../UIProvider";
 import { scaleFontSize, scaleVertical } from "../../Utils";
 import { EyeIcon } from "../../../assets/EyeIcon";
 import * as Animatable from 'react-native-animatable';
-import { TextInputProps, Text, ViewStyle, NativeSyntheticEvent, TextInputFocusEventData, TextInput, TouchableOpacity, TextProps, TextStyle, View } from "react-native";
+import { TextInputProps, Text, ViewStyle, NativeSyntheticEvent, TextInputFocusEventData, TextInput, TextProps, TextStyle, View, TouchableWithoutFeedback, ViewProps } from "react-native";
+import { getAnimations } from "./animations";
 
 const PLACEHOLDER_DOWN = {
     0: {
@@ -41,8 +42,10 @@ interface IProps extends TextInputProps {
 export const MainInput: FC<IProps> = memo(({ ID, type = 'main', enableErrorMessage = false, error, LeadingAccessory, TrailingAccessory, containerStyle, secureTextEntry, placeholder, onFocus, onBlur, style, ...props }) => {
     const { colors } = useUiContext();
     const styles = useMemo(() => getStyles(colors), [colors]);
+    const animations = useMemo(() => getAnimations(colors, type), [colors, type]);
     const [localSecureTextEntry, setLocalSecureTextEntry] = useState(secureTextEntry);
     const [isFocused, setIsFocused] = useState(false);
+    const eyeRef = useRef<Animatable.AnimatableComponent<ViewProps, ViewStyle>>();
 
     const onSetLocalSecureTextEntry = () => {
         setLocalSecureTextEntry(prev => !prev);
@@ -57,25 +60,35 @@ export const MainInput: FC<IProps> = memo(({ ID, type = 'main', enableErrorMessa
         onBlur?.(e);
     };
 
+    const onPressInEye = () => {
+        eyeRef.current?.animate(animations.eyeIconPressIn, 100);
+    };
+
+    const onPressOutEye = () => {
+        eyeRef.current?.animate(animations.eyeIconPressOut, 100);
+    };
+
     return (
         <View style={[styles[`container_${type}`], containerStyle]}>
-            <View style={[styles.inputWrapper]}>
+            <Animatable.View transition={'borderColor'} duration={500} style={[styles.inputWrapper, { borderColor: error?.length && !isFocused ? colors.error : isFocused ? colors.primary : colors.border, }]}>
                 <AnimatedText isUp={isFocused || props.value?.length !== 0} placeholder={placeholder} />
                 <TextInput
                     testID={ID}
                     {...props}
-                    style={[styles[`input_${type}`], { borderColor: error?.length && !isFocused ? colors.error : colors.border, paddingTop: placeholder ? scaleVertical(11) : 0 }, style]}
+                    style={[styles[`input_${type}`], { paddingTop: placeholder ? scaleVertical(11) : 0 }, style]}
                     onFocus={handleOnFocus}
                     onBlur={handleOnBlur}
                     secureTextEntry={localSecureTextEntry}
                     selectionColor={colors.primary}
                 />
                 {type === 'password' &&
-                    <TouchableOpacity style={styles.secureTextButton} onPress={onSetLocalSecureTextEntry}>
-                        <EyeIcon isCrossed={localSecureTextEntry} />
-                    </TouchableOpacity>
+                    <TouchableWithoutFeedback onPressIn={onPressInEye} onPressOut={onPressOutEye} onPress={onSetLocalSecureTextEntry}>
+                        <Animatable.View ref={eyeRef as any} style={styles.secureTextButton}>
+                            <EyeIcon isCrossed={localSecureTextEntry} />
+                        </Animatable.View>
+                    </TouchableWithoutFeedback>
                 }
-            </View>
+            </Animatable.View>
             {enableErrorMessage && <Text style={styles.errorText}>{error}</Text>}
         </View>
     )

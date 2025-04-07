@@ -12,14 +12,14 @@ export const getStyles = (colors: IColors) => (StyleSheet.create(
             justifyContent: 'center',
             backgroundColor: colors.card,
             borderRadius: scaleHorizontal(6),
+            borderWidth: scaleVertical(2),
+            borderColor: colors.border,
         },
         input_main: {
             height: scaleVertical(50),
             fontSize: scaleFontSize(14),
             color: colors.text,
             paddingHorizontal: scaleHorizontal(9),
-            borderWidth: scaleVertical(2),
-            borderColor: colors.border,
             borderRadius: scaleHorizontal(6),
         },
         input_password: {
@@ -27,9 +27,7 @@ export const getStyles = (colors: IColors) => (StyleSheet.create(
             fontSize: scaleFontSize(14),
             color: colors.text,
             paddingHorizontal: scaleHorizontal(9),
-            borderWidth: scaleVertical(2),
             paddingRight: scaleHorizontal(48),
-            borderColor: colors.border,
             borderRadius: scaleHorizontal(6),
         },
         errorText: {

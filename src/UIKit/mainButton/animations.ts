@@ -1,10 +1,11 @@
 import { IColors } from "../../UIProvider/theme/IColors";
+import { scaleFontSize } from "../../Utils";
 
-class ButtonAnimations {
+class Animations {
 
     constructor(private colors: IColors, private type: 'main' | 'no_background' | 'with_icon') { }
 
-    public buttonColors = {
+    private _buttonColors = {
         main: {
             default: this.colors.primary,
             active: this.colors.primary_active,
@@ -20,7 +21,7 @@ class ButtonAnimations {
             active: 'transparent',
             disabled: 'transparent',
             text_default: this.colors.title,
-            text_active: this.colors.border_inactive,
+            text_active: this.colors.title,
             text_disabled: this.colors.inactive,
             border: 'transparent',
             border_disabled: 'transparent',
@@ -36,81 +37,94 @@ class ButtonAnimations {
             border_disabled: this.colors.border_inactive,
         },
     }
+
+    get buttonColors() {
+        return this._buttonColors[this.type];
+    }
+
     public pressedIn = {
         0: {
-            backgroundColor: this.buttonColors[this.type].default,
+            backgroundColor: this.buttonColors.default,
+            scale: 1,
         },
         1: {
-            backgroundColor: this.buttonColors[this.type].active
+            backgroundColor: this.buttonColors.active,
+            scale: 1.05
         },
     }
     public pressedOut = {
         0: {
-            backgroundColor: this.buttonColors[this.type].active
+            backgroundColor: this.buttonColors.active,
+            scale: 1.05,
         },
         1: {
-            backgroundColor: this.buttonColors[this.type].default,
+            backgroundColor: this.buttonColors.default,
+            scale: 1
         },
     }
     public pressedInText = {
         0: {
-            color: this.buttonColors[this.type].text_default,
+            color: this.buttonColors.text_default,
+            fontSize: scaleFontSize(14),
         },
         1: {
-            color: this.buttonColors[this.type].text_active,
+            color: this.buttonColors.text_active,
+            fontSize: scaleFontSize(15),
         },
     }
     public pressedOutText = {
         0: {
-            color: this.buttonColors[this.type].text_active,
+            color: this.buttonColors.text_active,
+            fontSize: scaleFontSize(15),
         },
         1: {
-            color: this.buttonColors[this.type].text_default,
+            color: this.buttonColors.text_default,
+            fontSize: scaleFontSize(14),
         },
     }
 
     public disabledView = {
         0: {
-            backgroundColor: this.buttonColors[this.type].active,
-            borderColor: this.buttonColors[this.type].border
+            backgroundColor: this.buttonColors.active,
+            borderColor: this.buttonColors.border
         },
         1: {
-            backgroundColor: this.buttonColors[this.type].disabled,
-            borderColor: this.buttonColors[this.type].border_disabled
+            backgroundColor: this.buttonColors.disabled,
+            borderColor: this.buttonColors.border_disabled
         }
     }
 
     public enabledView = {
         0: {
-            backgroundColor: this.buttonColors[this.type].disabled,
-            borderColor: this.buttonColors[this.type].border_disabled
+            backgroundColor: this.buttonColors.disabled,
+            borderColor: this.buttonColors.border_disabled
         },
         1: {
-            backgroundColor: this.buttonColors[this.type].default,
-            borderColor: this.buttonColors[this.type].border
+            backgroundColor: this.buttonColors.default,
+            borderColor: this.buttonColors.border
         }
     }
 
     public disabledText = {
         0: {
-            color: this.buttonColors[this.type].text_default
+            color: this.buttonColors.text_default
         },
         1: {
-            color: this.buttonColors[this.type].text_disabled
+            color: this.buttonColors.text_disabled
         }
     }
 
     public enabledText = {
         0: {
-            color: this.buttonColors[this.type].text_disabled
+            color: this.buttonColors.text_disabled
         },
         1: {
-            color: this.buttonColors[this.type].text_default
+            color: this.buttonColors.text_default
         }
     }
 };
 
 
-export const getButtonAnimations = (colors: IColors, type: 'main' | 'no_background' | 'with_icon') => {
-    return new ButtonAnimations(colors, type);
+export const getAnimations = (colors: IColors, type: 'main' | 'no_background' | 'with_icon') => {
+    return new Animations(colors, type);
 };
